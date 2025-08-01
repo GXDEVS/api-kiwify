@@ -3,11 +3,11 @@ FROM densyy/base-node-2025:latest
 WORKDIR /home
 
 # ENVS
-ARG GITLAB_TOKEN
+ARG GITHUB_TOKEN
 ENV DIR_REPO=/home/api-kiwify
 
 # API
-RUN git clone https://${GITLAB_TOKEN}@gitlab.com/lecdt-hospedagem/backend/api-kiwify.git
+RUN git clone https://${GITHUB_TOKEN}@github.com/eduardolecdt/api-kiwify.git
 RUN rm -rf ${DIR_REPO}/node_modules
 RUN rm -rf ${DIR_REPO}/.git
 RUN (cd api-kiwify && pnpm install --prod)
