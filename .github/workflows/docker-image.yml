@@ -7,12 +7,21 @@ on:
     branches: [ "master" ]
 
 jobs:
-
-  build:
-
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: SSH into server and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /caminho/para/o/projeto/no/servidor
+            git pull origin main
+            docker build -t api-kiwify .
+            docker stop api-kiwify || true
+            docker rm api-kiwify || true
+            docker run -d --name api-kiwify -p 3001:3001 api-kiwify
