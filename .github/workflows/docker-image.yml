@@ -19,7 +19,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /caminho/para/o/projeto/no/servidor
+            cd /caminho-do-projeto
             git pull origin main
             docker build -t api-kiwify .
             docker stop api-kiwify || true
